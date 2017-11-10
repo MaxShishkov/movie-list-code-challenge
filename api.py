@@ -21,7 +21,7 @@ def index():
 #if found return the movie.
 @get('/<name>')
 def get_movie(name):
-    the_movie = [movie for movie in movies if movie['name'] == name]
+    the_movie = [movie for movie in movies if movie['title'] == name]
     return {'movie' : the_movie[0]}
 
 #pulls the data from the request in a form of jason and creats a dictionary for the new movie.
@@ -35,7 +35,7 @@ def add_movie():
 #delets a movie from he list
 @delete('/<name>')
 def remove_movie(name):
-    the_movie = [movie for movie in movies if movie['name'] == name]
+    the_movie = [movie for movie in movies if movie['title'] == name]
     movies.remove(the_movie[0])
     return {'movies' : movies}
 
