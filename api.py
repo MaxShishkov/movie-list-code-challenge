@@ -57,7 +57,6 @@ def get_one_movie(name):
 
 #pulls the data from the request in a form of jason and creates a dictionary for the new movie.
 #adds new movie to the list of movies
-#known bugs: adds duplicates
 @post('/movies')
 def add_movie():
 
