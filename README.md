@@ -22,7 +22,7 @@ pip install -r requirements.txt
 
 ```
 
-* MongoDB
+* MongoDB : 
 You will need to install MongoDB v3.4.10 
 Instructions can be found here : https://docs.mongodb.com/manual/installation/
 
@@ -101,7 +101,6 @@ $ curl localhost:8080/movies/<name> --data '{"prod_company": "company", "rel_dat
 ```
 returns {'Message' : "Movie updated"}
 
-```
 f. Update part of data
 ```
 $ curl localhost:8080/movies/<name> --data '{"rel_date": "new_date"}' -X PATCH
