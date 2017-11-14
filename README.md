@@ -1,50 +1,125 @@
-# movie-list-code-challenge
-A developer code challenge for a basic RESTful web API powered by Python and bottle.
+# rest api
+Build Simple REST API on Bottle and MongoDB!
 
-This code challenge highlights an understanding of the following RESTful concepts:
+## Dependency:
 
- - HTTP methods
- - request & response handling
- - resources
+* Python
+Python v2.7
 
-## Background
+* Bottle
+```
+pip install bottle==0.12
+```
 
-You've joined a local amateur movie critic club. They're looking for a way to keep track of the movies being reviewed. There's already someone that will build a web application but need someone to implement the back end. You have offered to build a RESTful web api to handle the back end logic and data storage.
+* pymongo
+```
+pip install pymongo==3.5.1
+```
 
-## Requirements
-Design and implement a RESTful web API using Python (2.7), and Bottle (0.12) to maintain the watch list of movies to be reviewed. 
+* Alternativly
+```
+pip install -r requirements.txt
 
-The API should have methods to:  
-* Return a list of Movies
-* Add a movie
-* Update movie details
-* Delete a movie
+* MongoDB
+You will need to install MongoDB v3.4.10 
+Instructions can be found here : https://docs.mongodb.com/manual/installation/
 
-For full credit, all the responses can be hard coded (no data back end needed).
+## Example: Basic Rest API
 
-### Movie details
+```python
+@get('/')
+def index():
+    return ({'Message' : 'This is my api. Thanks for visiting'})
 
-Each movie should contain the respective details:  
-* Title
-* Release Date
-* Production Company
+@get('/movies')
+def get_movies():
+    data = db[dbname].find({},{'_id': False})
+    if not data:
+        abort(404, "Sorry, We don't have any information")
+    result =[item for item in data]
 
-### Tests
-The application should inlcude appropriate unit tests (unittest library is sufficient).
-Anything over 75% code coverage is considered acceptable.
+    response.headers['Content-Type'] = 'application/json'
+    response.headers['Cache-Control'] = 'no-cache'
+    return json.dumps({'Movies' : result})
+```
 
-## Extra credit
-1. Create API documentation using RAML spec (http://raml.org/)
-2. Implement a real-time CRUD with a database back-end using either Redis or MongoDB.
-2. Implement unit tests using the nose library.
-  * Tests should not have a dependency on a database instance.
 
-## Taking the challenge
+## Usage:
+1. Start MongoDB:
+```
+mongod
+```
 
-1. Fork this repository
-2. Implement the requirements
-3. Document the installation instructions in the README.md
-4. When completed, submit a pull request to this repository.
-  * Note: PRs will never be merged, they are just used for review.
+2. Run the api:
 
-Tip: make sure to include a requirements.txt
+```
+python api.py
+```
+
+3. Ways to test:
+You can test the api with Postman.
+https://www.getpostman.com/docs/postman/launching_postman/installation_and_updates
+
+or use curl command
+https://curl.haxx.se/download.html
+
+Examples of curl
+a.
+```
+$ curl localhost:8080/ 
+returns JSON object {'Message' : 'This is my api. Thanks for visiting'}
+```
+
+b. Get a list of movies
+
+```
+$ curl localhost:8080/movies
+
+```
+
+Returns JSON object with a list of movies
+
+c. Get a movie by name
+
+```
+$ curl localhost:8080/movies/<name> 
+
+```
+returns a movie if it exists in the database
+
+d. Add a movie
+```
+$ curl localhost:8080/movies --data '{"prod_company": "company", "rel_date": "date", "title": "temp"}' -X POST
+```
+returns {'Message' : "Movie added"}
+
+e. Update a Movie
+```
+$ curl localhost:8080/movies/<name> --data '{"prod_company": "company", "rel_date": "date", "title": "temp"}' -X PUT
+```
+returns {'Message' : "Movie updated"}
+
+```
+f. Update part of data
+```
+$ curl localhost:8080/movies/<name> --data '{"rel_date": "new_date"}' -X PATCH
+```
+returns {'Message' : "Movie updated"}
+
+g. Deleting
+
+```
+$ curl localhost:8080/movies/<name> -X DELETE
+
+```
+returns {'Message' : "<name> was deleted"}
+
+
+## Built With
+
+* [Bottle](http://bottlepy.org/docs/dev/) - The web framework used
+* [MongoDB](https://www.mongodb.com/) - Database
+
+## Authors
+
+* **Max Shishkov** - *Initial work*

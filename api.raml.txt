@@ -1,0 +1,139 @@
+#%RAML 1.0
+---
+title: api
+
+/movies
+	get:
+		description: Retrieve the list of all the movies available
+		response: 200
+			body:
+				application/json
+					example: |
+						{
+							"Movies": [
+								{
+									"prod_company": "Warner Bros.",
+									"rel_date": "25 June 1982",
+									"title": "Blade Runner"
+								},
+								{
+									"prod_company": "20th Century Fox",
+									"rel_date": "21 September 1999",
+									"title": "Fight Club"
+								}
+							]
+						}
+	post:
+		description: Adds a movie to the database
+		queryParameters:
+			access_token:
+				required: false
+		body:
+			application/json:
+				example: |
+					{"prod_company": "new_company", "rel_date": "date", "title": "temp"}
+		response:
+			200:
+				body:
+					application/json:
+						example: |
+							{'Message' : 'Movie added'}
+			400:
+				body:
+					text:
+						example: |
+							"No value was passed"
+			409:
+				body:
+					text:
+						example: |
+							"Duplicate title"
+	delete:
+		description: Deletes a movie from the database
+		/{name}:
+			type:
+				text:
+					example: |
+						Blade Runner
+			response:
+				200:
+					body:
+					application/json:
+						example: |
+							{'Message' : '{name} was deleted'
+				404:
+					body:
+						text:
+							example: |
+								"Sorry, we don't have information about the movie called '{name}'."
+	put:
+		description: Updates the information about the movie if it exists else creats a new entry
+		queryParameters:
+			access_token:
+				required: false
+		/{name}:
+			type:
+				text:
+					example: |
+						Blade Runner
+			body:
+				application/json:
+					example: |
+						{"prod_company": "new_company", "rel_date": "new_date", "title": "new_title"}
+			response:
+				200:
+					body:
+						application/json:
+							example: |
+								{'Message' : 'Movie updated'}
+				400:
+					body:
+						text:
+							example: |
+								"No value was passed"
+	patch:
+		description: Updates a single valu in the collection
+		queryParameters:
+			access_token:
+				required: false
+		/{name}:
+			type:
+				text:
+					example: |
+						Blade Runner
+			body:
+				application/json:
+					example: |
+						{"rel_date": "new_date"}
+			response:
+				200:
+					body:
+						application/json:
+							example: |
+								{'Message' : 'The movie was updated'}
+				400:
+					body:
+						text:
+							example: |
+								"No data received"
+	/{name}
+		type:
+			text:
+				example: |
+					Blade Runner
+		get:
+		  responses:
+			200:
+				body:
+					application/json:
+						example: |
+							{
+								"prod_company": "Warner Bros.",
+								"rel_date": "25 June 1982",
+								"title": "Blade Runner"
+							}
+			404:
+				body:
+					text:
+						example: |
+							"Sorry, we don't have information about the movie called '{name}'."
