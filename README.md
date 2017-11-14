@@ -20,6 +20,8 @@ pip install pymongo==3.5.1
 ```
 pip install -r requirements.txt
 
+```
+
 * MongoDB
 You will need to install MongoDB v3.4.10 
 Instructions can be found here : https://docs.mongodb.com/manual/installation/
