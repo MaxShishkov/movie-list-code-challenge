@@ -63,19 +63,18 @@ You can test the api with Postman.
 https://www.getpostman.com/docs/postman/launching_postman/installation_and_updates
 
 or use curl command
-https://curl.haxx.se/download.html
 
 Examples of curl
 a.
 ```
-$ curl localhost:8080/ 
+$ curl GET localhost:8080/ 
 returns JSON object {'Message' : 'This is my api. Thanks for visiting'}
 ```
 
 b. Get a list of movies
 
 ```
-$ curl localhost:8080/movies
+$ curl GET localhost:8080/movies
 
 ```
 
@@ -84,36 +83,10 @@ Returns JSON object with a list of movies
 c. Get a movie by name
 
 ```
-$ curl localhost:8080/movies/<name> 
+$ curl GET localhost:8080/movies/<name> 
 
 ```
 returns a movie if it exists in the database
-
-d. Add a movie
-```
-$ curl localhost:8080/movies --data '{"prod_company": "company", "rel_date": "date", "title": "temp"}' -X POST
-```
-returns {'Message' : "Movie added"}
-
-e. Update a Movie
-```
-$ curl localhost:8080/movies/<name> --data '{"prod_company": "company", "rel_date": "date", "title": "temp"}' -X PUT
-```
-returns {'Message' : "Movie updated"}
-
-f. Update part of data
-```
-$ curl localhost:8080/movies/<name> --data '{"rel_date": "new_date"}' -X PATCH
-```
-returns {'Message' : "Movie updated"}
-
-g. Deleting
-
-```
-$ curl localhost:8080/movies/<name> -X DELETE
-
-```
-returns {'Message' : "<name> was deleted"}
 
 
 ## Built With
